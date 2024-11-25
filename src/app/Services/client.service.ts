@@ -8,14 +8,17 @@ import { Client } from '../Interfaces/client';
 })
 export class ClientService {
 
-  private readonly API_SERVER = 'http://localhost:8081'; 
+  private API_SERVER = 'http://localhost:8081'; 
 
-  private readonly httpHeaders = new HttpHeaders({
+
+  constructor(private httpClient: HttpClient) {}
+
+
+  private httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
     Accept: 'application/json'
   });
 
-  constructor(private httpClient: HttpClient) {}
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Unknown Error.';
@@ -28,15 +31,11 @@ export class ClientService {
     return throwError(errorMessage);
   }
 
-  /**
-   * Fetch list of users
-   * @returns Observable of user list
-   */ 
-  getUserList(): Observable<Client[]> {
-  return this.httpClient
-  .get<Client[]>(`${this.API_SERVER}/client/all`, { headers: this.httpHeaders })
-  .pipe(catchError(this.handleError));
-}
+  getUserList(): Observable<any> {
+    return this.httpClient.get<Client[]>(`${this.API_SERVER}/client/all`, { headers: this.httpHeaders })
+      .pipe(catchError(this.handleError));
+  }
+
 
 
 }
