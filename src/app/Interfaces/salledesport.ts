@@ -1,0 +1,2 @@
+export interface Salledesport {
+}

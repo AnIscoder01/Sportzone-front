@@ -1,0 +1,35 @@
+<div class="client-list">
+  <h2>Liste des Clients to the hht  </h2>
+
+  <!-- Message displayed if the user list is empty -->
+  <div *ngIf="users.length === 0" class="no-clients">
+    
+    <p>Aucun client trouvé.</p>
+  </div>
+
+  <!-- Display the user list if not empty -->
+  <div *ngIf="users.length > 0">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Adresse</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop through users and display their details -->
+      
+        @for (user of users; track user) {
+          <tr>
+             <td>{{user.nom}}</td>
+             
+ 
+         </tr>
+     }
+      </tbody>
+    </table>
+  </div>
+</div>
