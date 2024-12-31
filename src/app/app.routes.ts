@@ -1,6 +1,10 @@
-import { Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { ClientComponent } from './Components/client/client.component';
+import { AuthComponent } from './Components/auth/auth.component';
+import { HomeComponent } from './Components/home/home.component';
 
 export const routes: Routes = [
-    {path:"client/all",component:ClientComponent,title:'client'}
+    { path: "client/all", component: ClientComponent, title: 'client' },
+    { path: "signup", component: AuthComponent, title: 'signup' },
+    { path: "", component: HomeComponent, title: 'home'}
 ];
