@@ -8,7 +8,7 @@ interface SignupRequest {
   email: string;
   password: string;
   adresse: string;
-  roles?: string[]; // Optional roles
+  roles?: string[];
 }
 
 interface LoginRequest {
@@ -17,7 +17,7 @@ interface LoginRequest {
 }
 
 interface JwtResponse {
-  token: string;  // 'token' from the response
+  token: string;
   refreshToken: string;
   id: number;
   username: string;
@@ -39,62 +39,60 @@ export class AuthService {
 
   // Handle HTTP errors
   private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = 'Unknown Error.';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Client Error: ${error.error.message}`;
-    } else {
-      errorMessage = `Server Error: ${error.status} - ${error.message}`;
-    }
+    const errorMessage = error.error instanceof ErrorEvent
+      ? `Client Error: ${error.error.message}`
+      : `Server Error: ${error.status} - ${error.message}`;
+    console.error(errorMessage);
     return throwError(errorMessage);
   }
 
-  // Check if the user is logged in by checking the presence of 'token'
+  // Check if the user is logged in
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');  // Correct token retrieval
+    return !!localStorage.getItem('token');
   }
 
-  // Save tokens to localStorage after successful login
+  // Save tokens to localStorage
   saveTokens(jwtResponse: JwtResponse): void {
-    localStorage.setItem('token', jwtResponse.token);  // Save 'token'
+    localStorage.setItem('token', jwtResponse.token);
     localStorage.setItem('refreshToken', jwtResponse.refreshToken);
-    console.log('Tokens saved to localStorage:', jwtResponse);  // Log saved tokens
+    console.log('Tokens saved to localStorage:', jwtResponse);
   }
 
-  // Get current user roles from the JWT token
+  // Retrieve current user roles from JWT token
   getCurrentUserRole(): string[] | null {
-    const token = localStorage.getItem('token');  // Retrieve the token
-    console.log('Token retrieved from localStorage:', token);
-  
-    if (!token || token.split('.').length !== 3) {
-      console.warn('Invalid token format or no token found');
-      return null;  // Return null if token is invalid or missing
-    }
-  
-    try {
-      const payload = token.split('.')[1];  // Get the payload part of the JWT
-      const decodedPayload = JSON.parse(atob(payload));  // Decode from base64 and parse JSON
-      console.log('Decoded Payload:', decodedPayload);
-  
-      // Check if the roles are available in the decoded payload
-      if (!decodedPayload.roles) {
-        console.warn('No roles found in token');
-        return ['guest'];  // Assign a default role
+    const token = localStorage.getItem('token');
+    if (token && token.split('.').length === 3) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.roles || null;
+      } catch (error) {
+        console.error('Error decoding roles from token:', error);
+        return null;
       }
-  
-      return decodedPayload.roles || null;  // Return roles if available
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return null;  // Return null if there's an error decoding the token
     }
+    return null;
   }
-  
-  
+
+  // Retrieve the username of the currently logged-in user
+  getUsername(): string | null {
+    const token = localStorage.getItem('token');
+    if (token && token.split('.').length === 3) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.username || null;
+      } catch (error) {
+        console.error('Error decoding username from token:', error);
+        return null;
+      }
+    }
+    return null;
+  }
 
   // User Signup
   signup(signupRequest: SignupRequest): Observable<MessageResponse> {
     return this.httpClient
       .post<MessageResponse>(`${this.API_SERVER}/signup`, signupRequest)
-      .pipe(catchError(this.handleError));  // Handle any signup error
+      .pipe(catchError(this.handleError));
   }
 
   // User Login
@@ -104,28 +102,22 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap((response) => {
-          if (response?.token && response?.refreshToken) {
-            console.log('Login response:', response);
-            this.saveTokens(response);  // Save tokens
-            console.log('User roles:', response.roles);  // Log user roles to ensure they're available
-          } else {
-            console.error('Missing token or refresh token in response');
+          if (response.token && response.refreshToken) {
+            this.saveTokens(response);
           }
         })
       );
   }
-  
 
   // User Logout
   logout(refreshToken: string): Observable<MessageResponse> {
     return this.httpClient
       .post<MessageResponse>(`${this.API_SERVER}/logout`, { refreshToken })
       .pipe(
-        catchError(this.handleError),  // Handle logout error
+        catchError(this.handleError),
         tap(() => {
-          localStorage.removeItem('token');  // Remove 'token' from localStorage
+          localStorage.removeItem('token');
           localStorage.removeItem('refreshToken');
-          console.log('Tokens removed from localStorage');
         })
       );
   }
