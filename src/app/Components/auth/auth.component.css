@@ -1,0 +1,33 @@
+.auth-container {
+    background: linear-gradient(to bottom right, #007bff, #6c757d);
+    padding: 2rem 0;
+  }
+  
+  form input.form-control {
+    font-size: 1.1rem;
+  }
+  
+  button {
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    transform: scale(1.05);
+  }
+  
+  h2 {
+    font-weight: bold;
+  }
+  
+  .bg-dark {
+    background: #333 !important;
+  }
+  
+  .bg-secondary {
+    background: #555 !important;
+  }
+  
+  .bg-success {
+    background: #28a745 !important;
+  }
+  

@@ -1,0 +1,46 @@
+/* Form Styling */
+.add-salle-container {
+    background: #f8f9fa;
+    border-radius: 10px;
+  }
+  
+  .form-salle {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    border: 1px solid #eaeaea;
+  }
+  
+  .form-control {
+    font-size: 1rem;
+  }
+  
+  button {
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Salle Cards */
+  .salle-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .salle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-img-top {
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  

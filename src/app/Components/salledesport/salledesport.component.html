@@ -1,41 +1,70 @@
 <!-- Add Salle Form (Visible only to ROLE_OWNER) -->
-<div class="mb-5" *ngIf="userRole === 'ROLE_OWNER'">
-  <h2>Ajouter une Salle</h2>
-  <form (ngSubmit)="addSalledesport()">
+<div class="add-salle-container py-4" *ngIf="userRole === 'ROLE_OWNER'">
+  <h2 class="text-center mb-4">Ajouter une Salle</h2>
+  <form (ngSubmit)="addSalledesport()" class="form-salle p-4 shadow rounded">
     <div class="form-group mb-3">
-      <input [(ngModel)]="newSalledesport.nomSalle" name="nomSalle" placeholder="Nom de la Salle" class="form-control" required />
+      <input 
+        [(ngModel)]="newSalledesport.nomSalle" 
+        name="nomSalle" 
+        placeholder="Nom de la Salle" 
+        class="form-control rounded-pill px-4 py-2" 
+        required>
     </div>
     <div class="form-group mb-3">
-      <input [(ngModel)]="newSalledesport.adresse" name="adresse" placeholder="Adresse" class="form-control" required />
+      <input 
+        [(ngModel)]="newSalledesport.adresse" 
+        name="adresse" 
+        placeholder="Adresse" 
+        class="form-control rounded-pill px-4 py-2" 
+        required>
     </div>
     <div class="form-group mb-3">
-      <input [(ngModel)]="newSalledesport.numTel" name="numTel" placeholder="Numéro de Téléphone" class="form-control" required />
+      <input 
+        [(ngModel)]="newSalledesport.numTel" 
+        name="numTel" 
+        placeholder="Numéro de Téléphone" 
+        class="form-control rounded-pill px-4 py-2" 
+        required>
     </div>
     <div class="form-group mb-3">
-      <input [(ngModel)]="newSalledesport.heureOuverture" name="heureOuverture" placeholder="Heure d'Ouverture" class="form-control" required />
+      <input 
+        [(ngModel)]="newSalledesport.heureOuverture" 
+        name="heureOuverture" 
+        placeholder="Heure d'Ouverture" 
+        class="form-control rounded-pill px-4 py-2" 
+        required>
     </div>
     <div class="form-group mb-3">
-      <input [(ngModel)]="newSalledesport.heureFermeture" name="heureFermeture" placeholder="Heure de Fermeture" class="form-control" required />
+      <input 
+        [(ngModel)]="newSalledesport.heureFermeture" 
+        name="heureFermeture" 
+        placeholder="Heure de Fermeture" 
+        class="form-control rounded-pill px-4 py-2" 
+        required>
     </div>
-    <button type="submit" class="btn btn-success mt-3">Ajouter la Salle</button>
+    <button type="submit" class="btn btn-success w-100 rounded-pill py-2">Ajouter la Salle</button>
   </form>
 </div>
 
 <!-- Salle Cards (Visible to everyone) -->
-<div class="row g-5">
+<div class="row g-4 mt-5">
   <div class="col-lg-4 col-md-6" *ngFor="let salle of sallesdesport">
-    <div class="card position-relative">
-      <div class="card-body">
-        <h5 class="card-title">{{ salle.nomSalle }}</h5>
-        <p class="card-text">
-          <strong>Adresse:</strong> {{ salle.adresse }}<br />
-          <strong>Téléphone:</strong> {{ salle.numTel }}<br />
+    <div class="card salle-card shadow border-0 rounded overflow-hidden">
+      <img 
+        [src]="salle.imageUrl" 
+        alt="{{ salle.nomSalle }}" 
+        class="card-img-top">
+      <div class="card-body text-center">
+        <h5 class="card-title fw-bold">{{ salle.nomSalle }}</h5>
+        <p class="card-text text-muted">
+          <strong>Adresse:</strong> {{ salle.adresse }}<br>
+          <strong>Téléphone:</strong> {{ salle.numTel }}<br>
           <strong>Heures:</strong> {{ salle.heureOuverture }} - {{ salle.heureFermeture }}
         </p>
         <!-- Edit and Delete buttons (Visible only to ROLE_OWNER) -->
-        <div *ngIf="userRole === 'ROLE_OWNER'">
-          <button class="btn btn-primary" (click)="editMode(salle)">Modifier</button>
-          <button class="btn btn-danger" (click)="deleteSalledesport(salle.id!)">Supprimer</button>
+        <div *ngIf="userRole === 'ROLE_OWNER'" class="mt-3">
+          <button class="btn btn-primary btn-sm me-2" (click)="editMode(salle)">Modifier</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteSalledesport(salle.id!)">Supprimer</button>
         </div>
       </div>
     </div>

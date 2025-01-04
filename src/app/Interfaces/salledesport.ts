@@ -9,4 +9,7 @@ export interface Salledesport {
   heureFermeture: string;
   ownerUsername?: string // Optional: If the owner (User) is associated
   abonnements?: Abonnement[]; // Updated to use the Abonnement interface
+  imageUrl?: string; // Nouveau champ
+
 }
+

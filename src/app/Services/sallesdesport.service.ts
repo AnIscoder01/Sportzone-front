@@ -7,40 +7,64 @@ import { Salledesport } from '../Interfaces/salledesport';
   providedIn: 'root',
 })
 export class SalledesportService {
-  private baseUrl = 'http://localhost:8085/salledesport'; // API base URL
+  private baseUrl = 'http://localhost:8085/salledesport'; // URL de l'API
 
   constructor(private http: HttpClient) {}
 
-  // Helper method to get headers with token
+  // Méthode pour obtenir les headers avec le token d'authentification
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('accessToken');
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
     });
   }
 
-  // Create a new Salledesport
+  // Récupérer les salles créées par l'OWNER connecté
+  getMySalles(): Observable<Salledesport[]> {
+    return this.http.get<Salledesport[]>(`${this.baseUrl}/my-salles`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  // Créer une nouvelle salle de sport
   createSalledesport(salledesport: Salledesport): Observable<Salledesport> {
-    return this.http.post<Salledesport>(`${this.baseUrl}/save`, salledesport, { headers: this.getAuthHeaders() });
+    return this.http.post<Salledesport>(`${this.baseUrl}/save`, salledesport, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
-  // Get all Sallesdesport
+  // Récupérer toutes les salles de sport
   getAllSallesdesport(): Observable<Salledesport[]> {
-    return this.http.get<Salledesport[]>(`${this.baseUrl}/all`, { headers: this.getAuthHeaders() });
+    return this.http.get<Salledesport[]>(`${this.baseUrl}/all`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
-  // Get a Salledesport by ID
+  // Récupérer une salle de sport par son ID
   getSalledesportById(id: number): Observable<Salledesport> {
-    return this.http.get<Salledesport>(`${this.baseUrl}/getOne/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.get<Salledesport>(`${this.baseUrl}/getOne/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
-  // Update a Salledesport
-  updateSalledesport(id: number, salledesport: Salledesport): Observable<Salledesport> {
-    return this.http.put<Salledesport>(`${this.baseUrl}/update/${id}`, salledesport, { headers: this.getAuthHeaders() });
+  // Mettre à jour une salle de sport
+  updateSalledesport(
+    id: number,
+    salledesport: Salledesport
+  ): Observable<Salledesport> {
+    return this.http.put<Salledesport>(
+      `${this.baseUrl}/update/${id}`,
+      salledesport,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   }
 
-  // Delete a Salledesport by ID
+  // Supprimer une salle de sport par son ID
   deleteSalledesport(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 }

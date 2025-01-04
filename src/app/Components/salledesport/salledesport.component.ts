@@ -7,6 +7,7 @@ import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-salles-sport',
   standalone: true,
@@ -18,26 +19,33 @@ export class SallesSportComponent implements OnInit {
   userRole: string = ''; // Role of the current user
   sallesdesport: Salledesport[] = [];
   newSalledesport: Salledesport = {
-    nomSalle: '', 
-    adresse: '', 
-    numTel: '', 
-    heureOuverture: '', 
-    heureFermeture: ''
+    nomSalle: '',
+    adresse: '',
+    numTel: '',
+    heureOuverture: '',
+    heureFermeture: '',
   };
+  imageList: string[] = [
+    'assets/img/s1.jpg', 'assets/img/s2.jpg', 'assets/img/s3.jpg',
+    'assets/img/s4.jpg', 'assets/img/s5.jpg', 'assets/img/image6.jpg'
+  ];
   editSalledesport: Salledesport | null = null;
   loading: boolean = false;
   errorMessage: string | null = null;
 
+
   constructor(
-    private salleService: SalledesportService, 
-    private authService: AuthService, 
+    private salleService: SalledesportService,
+    private authService: AuthService,
     private router: Router
   ) {}
+
 
   ngOnInit(): void {
     this.loadUserRole();
     this.loadSalles();
   }
+
 
   // Load user role from localStorage
   loadUserRole(): void {
@@ -46,12 +54,21 @@ export class SallesSportComponent implements OnInit {
     console.log('Loaded user role:', this.userRole);
   }
 
-  // Load sports halls
+  goToSalleDetail(id: number): void {
+    this.router.navigate([`/salledesport/${id}`]);
+  }
+
   loadSalles(): void {
     this.loading = true;
+
+    if (this.userRole === 'ROLE_USER') {
     this.salleService.getAllSallesdesport().subscribe({
       next: (salles) => {
-        this.sallesdesport = salles;
+        // Assigner une image à chaque salle en fonction de l'index
+        this.sallesdesport = salles.map((salle, index) => ({
+          ...salle,
+          imageUrl: this.imageList[index % this.imageList.length] // Utiliser un index cyclique
+        }));
         this.loading = false;
       },
       error: (err: HttpErrorResponse) => {
@@ -60,6 +77,29 @@ export class SallesSportComponent implements OnInit {
       }
     });
   }
+  if (this.userRole === 'ROLE_OWNER') {
+    this.salleService.getMySalles().subscribe({
+      next: (salles) => {
+        // Assigner une image à chaque salle en fonction de l'index
+        this.sallesdesport = salles.map((salle, index) => ({
+          ...salle,
+          imageUrl: this.imageList[index % this.imageList.length] // Utiliser un index cyclique
+        }));
+        this.loading = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.errorMessage = `Error fetching sallesdesport: ${err.message}`;
+        this.loading = false;
+      }
+    });
+  }
+  
+
+
+  }
+
+ 
+
 
   // Add new sports hall
   addSalledesport(): void {
@@ -81,6 +121,7 @@ export class SallesSportComponent implements OnInit {
     }
   }
 
+
   // Edit sports hall
   editMode(salle: Salledesport): void {
     if (this.userRole === 'ROLE_OWNER') {
@@ -89,6 +130,7 @@ export class SallesSportComponent implements OnInit {
       alert('You must be an OWNER to edit a salle.');
     }
   }
+
 
   saveEdit(): void {
     if (this.editSalledesport) {
@@ -109,6 +151,7 @@ export class SallesSportComponent implements OnInit {
       });
     }
   }
+
 
   deleteSalledesport(id: number): void {
     if (this.userRole === 'ROLE_OWNER') {
