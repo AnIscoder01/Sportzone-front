@@ -6,12 +6,13 @@ import { Salledesport } from '../../Interfaces/salledesport';
 import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-salles-sport',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,RouterModule],
   templateUrl: './salledesport.component.html',
   styleUrls: ['./salledesport.component.css']
 })
@@ -46,6 +47,16 @@ export class SallesSportComponent implements OnInit {
     this.loadSalles();
   }
 
+  showMode(salle: Salledesport): void {
+    const details = `
+      Nom de la salle: ${salle.nomSalle}
+      Adresse: ${salle.adresse}
+      Numéro de téléphone: ${salle.numTel}
+      Heures d'ouverture: ${salle.heureOuverture}
+      Heures de fermeture: ${salle.heureFermeture}
+    `;
+    alert(details);
+  }
 
   // Load user role from localStorage
   loadUserRole(): void {

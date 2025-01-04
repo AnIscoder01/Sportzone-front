@@ -26,6 +26,7 @@ export class SalledesportService {
     });
   }
 
+
   // Créer une nouvelle salle de sport
   createSalledesport(salledesport: Salledesport): Observable<Salledesport> {
     return this.http.post<Salledesport>(`${this.baseUrl}/save`, salledesport, {
@@ -42,6 +43,8 @@ export class SalledesportService {
 
   // Récupérer une salle de sport par son ID
   getSalledesportById(id: number): Observable<Salledesport> {
+    const token = localStorage.getItem('token'); // Assume the token is stored in localStorage
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<Salledesport>(`${this.baseUrl}/getOne/${id}`, {
       headers: this.getAuthHeaders(),
     });

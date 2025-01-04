@@ -1,0 +1,11 @@
+<div *ngIf="salle; else loading">
+    <h1>{{ salle?.nomSalle }}</h1>
+    <p><strong>Adresse:</strong> {{ salle?.adresse }}</p>
+    <p><strong>Téléphone:</strong> {{ salle?.numTel }}</p>
+    <p><strong>Heures:</strong> {{ salle?.heureOuverture }} - {{ salle?.heureFermeture }}</p>
+  </div>
+  
+  <ng-template #loading>
+    <p>Loading salle details...</p>
+  </ng-template>
+  
