@@ -1,1 +1,47 @@
-<p>abonnements works!</p>
+<div *ngIf="abonnements && abonnements.length > 0; else noAbonnements" class="container mt-4">
+    <h1 class="text-center text-primary mb-4">Liste des Abonnements</h1>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Prix</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>Client</th>
+            <th>Action</th> <!-- Add a column for the "Subscribe" button -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let abonnement of abonnements">
+            <td>{{ abonnement.id }}</td>
+            <td>{{ abonnement.nom }}</td>
+            <td>{{ abonnement.type }}</td>
+            <td>{{ abonnement.description }}</td>
+            <td>{{ abonnement.prix | currency: 'EUR' }}</td>
+            <td>{{ abonnement.dateDebut | date: 'shortDate' }}</td>
+            <td>{{ abonnement.dateFin | date: 'shortDate' }}</td>
+            <td>
+              <strong>Nom d'utilisateur :</strong> {{ abonnement.client.username }}<br />
+              <strong>Email :</strong> {{ abonnement.client.email }}
+            </td>
+            <td>
+              <button class="btn btn-primary btn-sm" (click)="subscribe(abonnement)">
+                Subscribe
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <ng-template #noAbonnements>
+    <div class="text-center mt-4">
+      <p class="text-muted">Aucun abonnement disponible.</p>
+    </div>
+  </ng-template>
+  

@@ -1,11 +1,87 @@
-<div *ngIf="salle; else loading">
-    <h1>{{ salle?.nomSalle }}</h1>
-    <p><strong>Adresse:</strong> {{ salle?.adresse }}</p>
-    <p><strong>Téléphone:</strong> {{ salle?.numTel }}</p>
-    <p><strong>Heures:</strong> {{ salle?.heureOuverture }} - {{ salle?.heureFermeture }}</p>
-  </div>
-  
-  <ng-template #loading>
+<ng-template #loading>
     <p>Loading salle details...</p>
   </ng-template>
+  
+  <div class="container-fluid p-5">
+    <div class="row g-5">
+      <!-- Main Content Start -->
+      <div class="col-lg-8">
+        <!-- Blog Detail Start -->
+        <div class="mb-5">
+          <img class="img-fluid w-100 rounded mb-5" src="assets/img/blog-1.jpg" alt="">
+          <h1 class="text-uppercase mb-4">You find more details for Salle chosen here</h1>
+  
+         <!-- Salle Details -->
+<div *ngIf="salle; else loading">
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-body">
+        <h2 class="card-title text-primary mb-3">{{ salle?.nomSalle }}</h2>
+        <p class="card-text"><strong>Adresse:</strong> {{ salle?.adresse }}</p>
+        <p class="card-text"><strong>Téléphone:</strong> {{ salle?.numTel }}</p>
+        <p class="card-text"><strong>Heures:</strong> {{ salle?.heureOuverture }} - {{ salle?.heureFermeture }}</p>
+      </div>
+    </div>
+        <!-- Blog Detail End -->
+      </div>
+      <!-- Main Content End -->
+  
+      <!-- Sidebar Start -->
+      <div class="col-lg-4">
+        <!-- Search Form Start -->
+        <div class="mb-5">
+          <div class="input-group">
+            <input type="text" class="form-control p-3" placeholder="Keyword">
+            <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
+          </div>
+        </div>
+        <!-- Search Form End -->
+  
+        <!-- Categories Start -->
+        <div class="mb-5">
+          <h3 class="text-uppercase mb-4">Categories</h3>
+          <div class="card shadow-sm">
+            <div class="list-group list-group-flush">
+              <a href="#" class="list-group-item list-group-item-action">
+                <i class="bi bi-arrow-right text-primary me-2"></i>Web Design
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <i class="bi bi-arrow-right text-primary me-2"></i>Web Development
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <i class="bi bi-arrow-right text-primary me-2"></i>SEO Optimization
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <i class="bi bi-arrow-right text-primary me-2"></i>Email Marketing
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <i class="bi bi-arrow-right text-primary me-2"></i>Keyword Research
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Categories End -->
+  
+        <!-- Recent Posts Start -->
+        <div class="mb-5">
+          <h3 class="text-uppercase mb-4">Recent Posts</h3>
+          <div class="bg-dark rounded p-4">
+            <div class="d-flex overflow-hidden mb-3">
+              <img class="img-fluid flex-shrink-0 rounded-start" src="assets/img/blog-1.jpg" style="width: 75px;" alt="">
+              <a href="" class="d-flex align-items-center bg-light rounded-end h5 text-uppercase p-3 mb-0">Sed amet tempor amet sit kasd sea lorem</a>
+            </div>
+            <div class="d-flex overflow-hidden mb-3">
+              <img class="img-fluid flex-shrink-0 rounded-start" src="assets/img/blog-2.jpg" style="width: 75px;" alt="">
+              <a href="" class="d-flex align-items-center bg-light rounded-end h5 text-uppercase p-3 mb-0">Sed amet tempor amet sit kasd sea lorem</a>
+            </div>
+            <div class="d-flex overflow-hidden mb-3">
+              <img class="img-fluid flex-shrink-0 rounded-start" src="assets/img/blog-3.jpg" style="width: 75px;" alt="">
+              <a href="" class="d-flex align-items-center bg-light rounded-end h5 text-uppercase p-3 mb-0">Sed amet tempor amet sit kasd sea lorem</a>
+            </div>
+          </div>
+        </div>
+        <!-- Recent Posts End -->
+      </div>
+      <!-- Sidebar End -->
+    </div>
+  </div>
   

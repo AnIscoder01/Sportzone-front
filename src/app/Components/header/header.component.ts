@@ -57,11 +57,14 @@ export class HeaderComponent implements OnInit {
       this.userRoles = roles.split(',');
     }
   }
-
+  goToAbonnement() {
+    this.router.navigate(['/abonnement']);  // Redirect to the /salledesport page
+  }
   // Method to redirect to the salle de sport page
   goToSalleDeSport() {
     this.router.navigate(['/salledesport']);  // Redirect to the /salledesport page
   }
+ 
 
   ngOnInit() {
     this.checkLoginStatus();  // Check login status when the component is initialized
