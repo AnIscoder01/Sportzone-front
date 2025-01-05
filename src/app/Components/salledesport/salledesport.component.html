@@ -54,7 +54,7 @@
         [src]="salle.imageUrl" 
         alt="{{ salle.nomSalle }}" 
         class="card-img-top" 
-        (click)="openModal(salle.id)">
+        (click)="openModal(salle.id!)">
       <div class="card-body text-center">
         <h5 class="card-title fw-bold">{{ salle.nomSalle }}</h5>
         <p class="card-text text-muted">
