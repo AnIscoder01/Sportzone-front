@@ -7,12 +7,13 @@ import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
+import { AbonnementService } from '../../Services/abonnement.service'; // Add the Abonnement service
+import { Abonnement } from '../../Interfaces/abonnement'; // Define this interface if not already defined
 
 @Component({
   selector: 'app-salles-sport',
   standalone: true,
-  imports: [FormsModule, CommonModule,RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './salledesport.component.html',
   styleUrls: ['./salledesport.component.css']
 })
@@ -34,18 +35,26 @@ export class SallesSportComponent implements OnInit {
   loading: boolean = false;
   errorMessage: string | null = null;
 
+  // Properties for creating an abonnement
+  selectedSalleId: number | null = null; // Holds the salle ID for abonnement creation
+  newAbonnement: Abonnement = {
+    name: '',
+    duration: 0,
+    price: 0
+  };
 
   constructor(
     private salleService: SalledesportService,
+    private abonnementService: AbonnementService,
     private authService: AuthService,
     private router: Router
   ) {}
-
 
   ngOnInit(): void {
     this.loadUserRole();
     this.loadSalles();
   }
+
 
   showMode(salle: Salledesport): void {
     const details = `
@@ -183,4 +192,59 @@ export class SallesSportComponent implements OnInit {
       alert('You must be an OWNER to delete a salle.');
     }
   }
+// Open abonnement creation mode for a specific salle
+  openAbonnementMode(salleId: number): void {
+    this.selectedSalleId = salleId;
+    this.newAbonnement = { name: '', duration: 0, price: 0 };
+  }
+
+  // Close abonnement creation mode
+  closeAbonnementMode(): void {
+    this.selectedSalleId = null;
+  }
+
+  // Create an abonnement for a selected salle
+  createAbonnement(): void {
+    if (this.selectedSalleId !== null) {
+      this.loading = true;
+      this.abonnementService.createAbonnementForSalle(this.selectedSalleId, this.newAbonnement).subscribe({
+        next: (response) => {
+          alert('Abonnement created successfully!');
+          this.closeAbonnementMode();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = `Error creating abonnement: ${err.message}`;
+        },
+        complete: () => (this.loading = false)
+      });
+    }
+  }
+}// Open abonnement creation mode for a specific salle
+openAbonnementMode(salleId: number): void {
+  this.selectedSalleId = salleId;
+  this.newAbonnement = { name: '', duration: 0, price: 0 };
+}
+
+// Close abonnement creation mode
+closeAbonnementMode(): void {
+  this.selectedSalleId = null;
+}
+
+// Create an abonnement for a selected salle
+createAbonnement(): void {
+  if (this.selectedSalleId !== null) {
+    this.loading = true;
+    this.abonnementService.createAbonnementForSalle(this.selectedSalleId, this.newAbonnement).subscribe({
+      next: (response) => {
+        alert('Abonnement created successfully!');
+        this.closeAbonnementMode();
+      },
+      error: (err: HttpErrorResponse) => {
+        this.errorMessage = `Error creating abonnement: ${err.message}`;
+      },
+      complete: () => (this.loading = false)
+    });
+  }
+}
+
 }
