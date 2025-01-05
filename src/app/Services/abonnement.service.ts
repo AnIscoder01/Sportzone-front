@@ -68,4 +68,13 @@ export class AbonnementService {
       headers: this.getAuthHeaders(),
     });
   }
+
+// Créer un abonnement pour un client
+createAbonnementForSalle(salleId: number, abonnement: Abonnement): Observable<Abonnement> {
+  return this.http.post<Abonnement>(`${this.baseUrl}/create-for-salle/${salleId}`, abonnement, {
+    headers: this.getAuthHeaders(),
+  });
+}
+
+
 }
